@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import App from './Components/App/App';
-import './css/App.css'; 
+//import logo from './logo.svg';
+import './App.css'; 
+import SearchBar from '../SearchBar/SearchBar';
+import SearchResults from '../SearchResults/SearchResults';
+import Playlist from '../Playlist/Playlist';
 import Spotify from '../../util/Spotify';
 
 class App extends Component {
@@ -17,7 +19,7 @@ class App extends Component {
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
-    this.search = this.search.bind(this);
+    this.SpotifySearch = this.SpotifySearch.bind(this);
   }
 
   addTrack(track) {

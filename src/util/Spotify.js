@@ -4,7 +4,7 @@ const redirectUri = "http://jaesonjamming.surge.sh/";
 
 let accessToken = '';
 
-const Spotify {
+const Spotify = {
 	//spotify user access token
 	getAccessToken() {
 		if(accessToken) {
@@ -15,12 +15,12 @@ const Spotify {
 
 		if(urlAccessToken && urlExpiresIn) {
 			accessToken = urlAccessToken[1];
-			expiresIn = urlExpiresIn[1];
-			window.setTime(() => accessToken = '', expiresIn * 1000);
+			const expiresIn = Number(urlExpiresIn[1]);
+			window.setTimeout(() => accessToken = '', expiresIn * 1000);
 			window.history.pushState('Access Token', null, '/');
 		} else { 
-			const spotifyUrl = 'https://accounts.spotify.com/authorize?client_id={clientId}&response_type=token&scope=playlist-modify-public&redirect_uri={redirect_uri}';
-			window.location = listUrl;
+			//const spotifyUrl = 'https://accounts.spotify.com/authorize?client_id={clientId}&response_type=token&scope=playlist-modify-public&redirect_uri={redirect_uri}';
+			window.location = 'https://accounts.spotify.com/authorize?client_id={clientId}&response_type=token&scope=playlist-modify-public&redirect_uri={redirect_uri}';
 		}
 	},
 	//spotify search request 
