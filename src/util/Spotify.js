@@ -1,5 +1,5 @@
 const clientId = 'e3b26d48cdc042f6a0050adce1b65bbf';
-const redirectUri = "http://jaesonjamming.surge.sh/";
+const redirectUri = "http://localhost:3000/";
 
 
 let accessToken = '';
@@ -30,19 +30,20 @@ const Spotify = {
 			headers: {
 				Authorization: `Bearer ${accessToken}`
 			}
-		})
-		.then(response => response.json())
-		.then(jsonResponse => {
-			if(!jsonResponse.tracks) return [];
-			return jsonResponse.tracks.items.map(track => {
-				return {
+		}).then(response => {
+			return response.json();
+		}).then(jsonResponse => {
+			if(!jsonResponse.tracks) {
+				return [];
+			}
+
+			return jsonResponse.tracks.items.map(track => ({
 					id: track.id,
 					name: track.name,
 					artist: track.artists[0].name,
 					album: track.album.name,
 					uri: track.uri
-				}
-			})
+				}));
 		});
 	}, //ends search
 
