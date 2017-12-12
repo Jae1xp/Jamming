@@ -18,15 +18,16 @@ const Spotify = {
 			const expiresIn = Number(urlExpiresIn[1]);
 			window.setTimeout(() => accessToken = '', expiresIn * 1000);
 			window.history.pushState('Access Token', null, '/');
+			return accessToken;
 		} else { 
-			//const spotifyUrl = 'https://accounts.spotify.com/authorize?client_id={clientId}&response_type=token&scope=playlist-modify-public&redirect_uri={redirect_uri}';
-			window.location = 'https://accounts.spotify.com/authorize?client_id={clientId}&response_type=token&scope=playlist-modify-public&redirect_uri={redirect_uri}';
+			const listUrl = 'https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirect_uri}';
+			window.location = listUrl;
 		}
 	},
 	//spotify search request 
 	search(term) {
 		const accessToken = Spotify.getAccessToken();
-		return fetch(`https://api.spotify.com/v1/search?type=track&q={term}`, {
+		return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`
 			}
@@ -43,7 +44,7 @@ const Spotify = {
 					artist: track.artists[0].name,
 					album: track.album.name,
 					uri: track.uri
-				}));
+			}));
 		});
 	}, //ends search
 
@@ -61,21 +62,23 @@ const Spotify = {
 			headers: headers
 		}).then(response => response.json()).then(jsonResponse => {
 			userId = jsonResponse.id;
-			return fetch(`https://api.spotify.com/v1/users/{userId}/playlists`, {
+			return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
 				method: 'POST',
 				headers: headers,
 				body: JSON.stringify({name: playlistName})
-			}).then(response => response.json()).then(jsonResponse => {
-				const playlistID = jsonResponse.id;
-				return fetch(`https://api.spotify.com/v1/users/{userId}/playlists/${playlistID}/tracks`, {
-					headers: headers,
-					method: 'POST',
-					body: JSON.stringify({uris: trackUris})
-				});
+			// }).then(response => response.json()).then(jsonResponse => {
+			// 	const playlistId = jsonResponse.id;
+			// 	return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistID}/tracks`, {
+			// 		headers: headers,
+			// 		method: 'POST',
+			// 		body: JSON.stringify({uris: trackUris})
+			// 	}).then(response => response.json()).then(jsonResponse => {
+			// 		playlistId = jsonResponse.id;
+			// 	})
 			});
 		});
 	} //end save playlist
-} //end spotify 
+}; //end spotify 
 
 
 
